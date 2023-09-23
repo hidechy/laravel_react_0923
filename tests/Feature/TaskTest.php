@@ -32,7 +32,7 @@ class TaskTest extends TestCase
      */
     public function 登録()
     {
-        $data = ['title' => '登録テスト', 'is_done' => 1];
+        $data = ['title' => '登録テスト'];
 
         $responses = $this->postJson('api/tasks', $data);
 
@@ -40,6 +40,52 @@ class TaskTest extends TestCase
             ->assertCreated()
             ->assertJsonFragment($data);
     }
+
+
+
+
+
+
+    /**
+     * @test
+     */
+    public function タイトルが空白()
+    {
+        $data = ['title' => ''];
+
+        $responses = $this->postJson('api/tasks', $data);
+
+        $responses
+            ->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'title' => 'タイトル は必須です。',
+            ]);
+    }
+
+
+
+
+
+    /**
+     * @test
+     */
+    public function 文字数超過()
+    {
+        $data = ['title' => str_repeat('あ', 256)];
+
+        $responses = $this->postJson('api/tasks', $data);
+
+        $responses
+            ->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'title' => 'タイトル は 255 文字以内で入力してください。',
+            ]);
+    }
+
+
+
+
+
 
     /**
      * @test

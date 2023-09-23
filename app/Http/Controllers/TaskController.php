@@ -6,6 +6,8 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 
+use App\Http\Requests\TaskRequest;
+
 class TaskController extends Controller
 {
 
@@ -19,10 +21,10 @@ class TaskController extends Controller
     }
 
     /**
-     * @param StoreTaskRequest $request
+     * @param TaskRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreTaskRequest $request)
+    public function store(TaskRequest $request)
     {
         $task = Task::create($request->all());
 
@@ -43,11 +45,11 @@ class TaskController extends Controller
     }
 
     /**
-     * @param UpdateTaskRequest $request
+     * @param TaskRequest $request
      * @param Task $task
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function update(TaskRequest $request, Task $task)
     {
         $task->title = $request->title;
 
